@@ -42,6 +42,7 @@ export function Entry({ data, encodeDataAttribute }: EntryProps) {
             if (!value) return null
             return (
               <p
+                key={key}
                 className={classNames(
                   getTableElementStyle(index, entryData.size, true),
                   'pl-2',
