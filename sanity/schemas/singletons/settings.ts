@@ -15,51 +15,9 @@ export default defineType({
       description: 'Links displayed on the header of your site.',
       type: 'array',
       of: [
-        {
-          title: 'Reference',
-          type: 'reference',
-          to: [
-            {
-              type: 'home',
-            },
-            {
-              type: 'page',
-            },
-            {
-              type: 'project',
-            },
-            {
-              type: 'blog',
-            },
-          ],
-        },
-      ],
-    }),
-    defineField({
-      name: 'footer',
-      description:
-        'This is a block of text that will be displayed at the bottom of the page.',
-      title: 'Footer Info',
-      type: 'array',
-      of: [
         defineArrayMember({
-          type: 'block',
-          marks: {
-            annotations: [
-              {
-                name: 'link',
-                type: 'object',
-                title: 'Link',
-                fields: [
-                  {
-                    name: 'href',
-                    type: 'url',
-                    title: 'Url',
-                  },
-                ],
-              },
-            ],
-          },
+          type: 'reference',
+          to: [{ type: 'category' }],
         }),
       ],
     }),

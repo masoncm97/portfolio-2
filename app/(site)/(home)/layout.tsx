@@ -45,15 +45,18 @@ export default async function IndexRoute({
   return (
     <>
       <div className="flex min-h-screen flex-col bg-white text-black">
-        <div className="flex-grow">
+        <div className="sm:flex sm:flex-col-reverse lg:flex-row lg:max-w-screen sm:items-center justify-between">
+          <Suspense>
+            <Navbar />
+          </Suspense>
+          <h1 className="max-sm:hidden lg:mr-20 text-2xl">Mason Mathai</h1>
+        </div>
+        <div>
           <Suspense>{children}</Suspense>
         </div>
         <Suspense>
           <Footer />
         </Suspense>
-        <div className="sm:hidden w-[100vw] flex fixed bottom-0 justify-center">
-          <h1 className="text-5xl">Mason Mathai</h1>
-        </div>
       </div>
       {/* {draftMode().isEnabled && <VisualEditing />} */}
     </>

@@ -4,27 +4,12 @@ import { draftMode } from 'next/headers'
 import { client } from '@/sanity/lib/client'
 import {
   homePageQuery,
-  pagesBySlugQuery,
-  projectBySlugQuery,
+  entryBySlugQuery,
   settingsQuery,
-  blogSettingsQuery,
-  blogPageQuery,
-  postBySlugQuery,
-  postPageQuery,
 } from '@/sanity/lib/queries'
 import { token } from '@/sanity/lib/token'
-import {
-  HomePagePayload,
-  PagePayload,
-  ProjectPayload,
-  SettingsPayload,
-  BlogSettingsPayload,
-  PostPayload,
-  BlogPagePayload,
-  PostPagePayload,
-} from '@/types'
+import { HomePagePayload, SettingsPayload, EntryPayload } from '@/types'
 import { queryStore } from './createQueryStore'
-import { PostPageProps } from '@/components/pages/blog/post/PostPage'
 
 const serverClient = client.withConfig({
   token,
@@ -84,35 +69,11 @@ export function loadHomePage() {
   )
 }
 
-export function loadProject(slug: string) {
-  return loadQuery<ProjectPayload | null>(
-    projectBySlugQuery,
+export function loadEntry(slug: string) {
+  return loadQuery<EntryPayload | null>(
+    entryBySlugQuery,
     { slug },
-    { next: { tags: [`project:${slug}`] } },
-  )
-}
-
-export function loadPage(slug: string) {
-  return loadQuery<PagePayload | null>(
-    pagesBySlugQuery,
-    { slug },
-    { next: { tags: [`page:${slug}`] } },
-  )
-}
-
-export function loadBlogSettings() {
-  return loadQuery<BlogSettingsPayload>(
-    blogSettingsQuery,
-    {},
-    { next: { tags: ['settings', 'home', 'page', 'project'] } },
-  )
-}
-
-export function loadBlogPage() {
-  return loadQuery<BlogPagePayload>(
-    blogPageQuery,
-    {},
-    { next: { tags: ['home', 'posts'] } },
+    { next: { tags: [`entry:${slug}`] } },
   )
 }
 
@@ -126,19 +87,3 @@ export function loadBlogPage() {
 //     return slugs.map((slug) => ({ slug }))
 //   }
 // }
-
-export function loadPost(slug: string) {
-  return loadQuery<PostPayload | null>(
-    postBySlugQuery,
-    { slug },
-    { next: { tags: [`post:${slug}`] } },
-  )
-}
-
-export function loadPostPage(slug: string, token?: string | null) {
-  return loadQuery<PostPagePayload | null>(
-    postPageQuery,
-    { slug },
-    { next: { tags: [`post:${slug}`] } },
-  )
-}

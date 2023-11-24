@@ -2,7 +2,7 @@ import type { PortableTextBlock } from '@portabletext/types'
 
 import { CustomPortableText } from '@/components/shared/CustomPortableText'
 import ImageBox from '@/components/shared/ImageBox'
-import type { EntryPayload, ShowcaseProject } from '@/types'
+import type { EntryPayload } from '@/types'
 
 interface EntryProps {
   entry: EntryPayload
@@ -13,11 +13,7 @@ export function EntryListItem(props: EntryProps) {
   const { entry, odd } = props
 
   return (
-    <div
-      className={`flex flex-col gap-x-5 p-2 transition hover:bg-gray-50/50 xl:flex-row ${
-        odd && 'border-b border-t xl:flex-row-reverse'
-      }`}
-    >
+    <div className={`flex flex-col gap-x-5 p-2 transition xl:flex-row`}>
       <div className="w-full xl:w-9/12">
         <ImageBox
           image={entry.image}
@@ -37,21 +33,13 @@ function TextBox({ entry }: { entry: EntryPayload }) {
     <div className="relative mt-2 flex w-full flex-col justify-between p-3 xl:mt-0">
       <div>
         {/* Title */}
-        <div className="mb-2 text-xl font-extrabold tracking-tight md:text-2xl">
+        <div className="mb-2 text-xs sm:text-sm tracking-tight text-center">
           {entry.title}
         </div>
-        {/* Overview  */}
-        <div className="font-serif text-gray-500">
-          {/* <CustomPortableText value={entry.overview as PortableTextBlock[]} /> */}
+        {/* Date */}
+        <div className="text-xs sm:text-sm tracking-tight text-center">
+          {entry.date}
         </div>
-      </div>
-      {/* Tags */}
-      <div className="mt-4 flex flex-row gap-x-2">
-        {entry.tags?.map((tag, key) => (
-          <div className="text-sm font-medium lowercase md:text-lg" key={key}>
-            #{tag}
-          </div>
-        ))}
       </div>
     </div>
   )

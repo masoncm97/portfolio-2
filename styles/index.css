@@ -4,9 +4,9 @@ html {
   overflow-x: hidden;
 }
 
-p:not(:last-child) {
+/* p:not(:last-child) {
   margin-bottom: 0.875rem;
-}
+} */
 
 ol,
 ul {
@@ -15,4 +15,26 @@ ul {
 
 ol {
   list-style-type: disc;
+}
+
+.arrow::before {
+  content: '';
+  border: solid green 1px;
+  /* border-width: 0 3px 3px 0; */
+  display: inline-block;
+  transform: rotate(-45deg);
+}
+
+.arrow::after {
+  content: '';
+  border: solid blue 1px;
+  border-width: 0 3px 3px 0;
+  /* display: inline-block; */
+  transform: rotate(45deg);
+}
+
+.arrow {
+  border: solid red 1px;
+  /* border-width: 0 3px 3px 0; */
+  display: inline-block;
 }

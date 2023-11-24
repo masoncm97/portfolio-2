@@ -1,33 +1,44 @@
+'use client'
+
 import Link from 'next/link'
 
 import { resolveHref } from '@/sanity/lib/utils'
 import type { MenuItem, SettingsPayload } from '@/types'
+import { generateQuery, getTableElementStyle } from '@/lib/util'
+import classNames from 'classnames'
+import useIsDeviceSize from '@/hooks/useIsDeviceSize'
+import useWindowDimensions from '@/hooks/useWindowDimensions'
 
 interface NavbarProps {
   data: SettingsPayload
 }
 export default function Navbar(props: NavbarProps) {
   const { data } = props
+
   const menuItems = data?.menuItems || ([] as MenuItem[])
+  menuItems.unshift({ _type: 'home', title: 'Everything', slug: '/' })
+
   return (
-    <div className="sticky top-0 z-10 flex flex-wrap items-center gap-x-5 bg-white/80 px-4 py-4 backdrop-blur md:px-16 md:py-5 lg:px-32">
+    <div className="sticky top-0 z-10 flex flex-col lg:flex-row items-center bg-white/80 px-4 py-4 backdrop-blur md:px-16 md:py-5 lg:pl-18 lg:pr-32">
       {menuItems &&
-        menuItems.map((menuItem, key) => {
-          const href = resolveHref(menuItem?._type, menuItem?.slug)
+        menuItems.map((menuItem, index) => {
+          const href = resolveHref(
+            menuItem?._type,
+            generateQuery(menuItem?.title),
+          )
           if (!href) {
             return null
           }
           return (
             <Link
-              key={key}
-              className={`text-lg hover:text-black md:text-xl ${
-                menuItem?._type === 'home'
-                  ? 'font-extrabold text-black'
-                  : 'text-gray-600'
-              }`}
+              key={index}
+              className={classNames(
+                'w-[15rem] sm:w-[25rem] lg:max-w-[8rem] text-center',
+                getTableElementStyle(index, menuItems.length),
+              )}
               href={href}
             >
-              {menuItem.title}
+              {menuItem.title?.toLowerCase()}
             </Link>
           )
         })}
