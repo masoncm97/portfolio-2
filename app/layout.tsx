@@ -1,7 +1,7 @@
 import 'tailwindcss/tailwind.css'
 
 import { IBM_Plex_Mono, Inter, PT_Serif } from 'next/font/google'
-
+import { Suspense } from 'react'
 const serif = PT_Serif({
   variable: '--font-serif',
   style: ['normal', 'italic'],
