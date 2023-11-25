@@ -51,9 +51,6 @@ export default async function IndexRoute({
         <Suspense>
           <Footer />
         </Suspense>
-        <div className="sm:hidden w-[100vw] flex fixed bottom-0 justify-center">
-          <h1 className="text-5xl">Mason Mathai</h1>
-        </div>
       </div>
       {/* {draftMode().isEnabled && <VisualEditing />} */}
     </>

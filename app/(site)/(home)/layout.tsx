@@ -49,7 +49,7 @@ export default async function IndexRoute({
           <Suspense>
             <Navbar />
           </Suspense>
-          <h1 className="max-sm:hidden lg:mr-20 text-2xl">Mason Mathai</h1>
+          <h1 className="max-lg:hidden lg:mr-20 text-2xl">Mason Mathai</h1>
         </div>
         <div>
           <Suspense>{children}</Suspense>

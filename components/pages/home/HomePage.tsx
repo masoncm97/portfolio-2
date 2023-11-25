@@ -8,7 +8,7 @@ import { Header } from '@/components/shared/Header'
 import { resolveHref } from '@/sanity/lib/utils'
 import type { HomePagePayload } from '@/types'
 import { useSearchParams } from 'next/navigation'
-import { generateQuery } from '@/lib/server-util'
+import { generateQuery } from '@/lib/client-util'
 
 export interface HomePageProps {
   data: HomePagePayload | null
