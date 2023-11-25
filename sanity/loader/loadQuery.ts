@@ -6,9 +6,15 @@ import {
   homePageQuery,
   entryBySlugQuery,
   settingsQuery,
+  getAllSlugs,
 } from '@/sanity/lib/queries'
 import { token } from '@/sanity/lib/token'
-import { HomePagePayload, SettingsPayload, EntryPayload } from '@/types'
+import {
+  HomePagePayload,
+  SettingsPayload,
+  EntryPayload,
+  EntriesPayload,
+} from '@/types'
 import { queryStore } from './createQueryStore'
 
 const serverClient = client.withConfig({
@@ -74,6 +80,14 @@ export function loadEntry(slug: string) {
     entryBySlugQuery,
     { slug },
     { next: { tags: [`entry:${slug}`] } },
+  )
+}
+
+export function loadSlugs() {
+  return loadQuery<EntriesPayload | null>(
+    getAllSlugs,
+    {},
+    { next: { tags: ['slugs'] } },
   )
 }
 

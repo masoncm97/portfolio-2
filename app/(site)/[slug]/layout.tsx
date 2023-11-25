@@ -10,7 +10,7 @@ import { Footer } from '@/components/global/Footer'
 import { Navbar } from '@/components/global/Navbar'
 import { urlForOpenGraphImage } from '@/sanity/lib/utils'
 import { loadHomePage, loadSettings } from '@/sanity/loader/loadQuery'
-import { BackArrow } from '@/components/shared/BackArrow'
+// import { BackArrow } from '@/components/shared/Arrow'
 import Link from 'next/link'
 
 export default async function IndexRoute({
@@ -21,7 +21,6 @@ export default async function IndexRoute({
   return (
     <>
       <div className="flex min-h-screen flex-col bg-white text-black">
-        <BackArrow className="mt-12" />
         <div className="mt-20 flex-grow px-4 md:px-16 lg:px-32">
           <Suspense>{children}</Suspense>
         </div>

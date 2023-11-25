@@ -1,5 +1,6 @@
 'use client'
 
+import { EntryPayload } from '@/types'
 import classNames from 'classnames'
 
 function formatString(str: string): string {
@@ -26,4 +27,11 @@ export function getTableElementStyle(
         ? 'max-lg:border-b-[1px] lg:border-r-[1px]'
         : 'max-lg:border-b-0 lg:border-r-0',
   )
+}
+
+export function generateSiblingRoutes(
+  entries: EntryPayload[] | undefined,
+): string[] {
+  if (!entries) return []
+  return entries.map((entry) => `/${entry.slug}`)
 }

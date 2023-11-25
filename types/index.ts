@@ -14,6 +14,8 @@ export interface HomePagePayload {
   title?: string
 }
 
+export type EntriesPayload = Pick<HomePagePayload, 'entries'>
+
 export interface SettingsPayload {
   title?: string
   footer?: PortableTextBlock[]
@@ -35,6 +37,8 @@ export interface EntryPayload {
   title?: string
   tags?: string[]
 }
+
+export type SlugPayload = Pick<EntryPayload, 'slug'>
 
 export interface CategoryPayload {
   _type: string

@@ -47,3 +47,11 @@ export const settingsQuery = groq`
     ogImage,
   }
 `
+
+export const getAllSlugs = groq`
+ *[_type == "home"][0]{
+    entries[]->{
+      "slug": slug.current,
+    }
+  }
+`

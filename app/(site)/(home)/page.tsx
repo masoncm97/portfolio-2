@@ -5,6 +5,9 @@ import Link from 'next/link'
 import { HomePage } from '@/components/pages/home/HomePage'
 import { studioUrl } from '@/sanity/lib/api'
 import { loadHomePage } from '@/sanity/loader/loadQuery'
+import { EntryPayload } from '@/types'
+import { useContext } from 'react'
+import { useStore } from 'zustand'
 
 const HomePagePreview = dynamic(
   () => import('@/components/pages/home/HomePagePreview'),
@@ -12,7 +15,6 @@ const HomePagePreview = dynamic(
 
 export default async function IndexRoute() {
   const initial = await loadHomePage()
-  console.log(initial)
   if (draftMode().isEnabled) {
     return <HomePagePreview initial={initial} />
   }

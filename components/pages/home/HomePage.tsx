@@ -8,7 +8,10 @@ import { Header } from '@/components/shared/Header'
 import { resolveHref } from '@/sanity/lib/utils'
 import type { HomePagePayload } from '@/types'
 import { useSearchParams } from 'next/navigation'
-import { generateQuery } from '@/lib/client-util'
+import { generateQuery, generateSiblingRoutes } from '@/lib/client-util'
+import { useContext } from 'react'
+import { useStore } from 'zustand'
+import { RouteContext, RouteProps } from '@/lib/store'
 
 export interface HomePageProps {
   data: HomePagePayload | null
@@ -24,6 +27,11 @@ export function HomePage({ data, encodeDataAttribute }: HomePageProps) {
   const filteredEntries = entries.filter((entry) => {
     return generateQuery(entry.category?.title) === category
   })
+  const siblingRoutes = generateSiblingRoutes(entries)
+  const store = useContext(RouteContext)
+  console.log('yes', siblingRoutes)
+  if (!store) throw new Error('Missing RouteContext.Provider in the tree')
+  store.setState({ currentRoute: '', siblingRoutes: siblingRoutes })
 
   return (
     <div className="space-y-20">

@@ -1,5 +1,7 @@
 // 'use server'
 
+import { EntryPayload } from '@/types'
+
 // import classNames from 'classnames'
 
 // function formatString(str: string): string {
@@ -27,3 +29,10 @@
 //         : 'max-lg:border-b-0 lg:border-r-0',
 //   )
 // }
+
+export function generateSiblingRoutes(
+  entries: EntryPayload[] | undefined,
+): string[] {
+  if (!entries) return []
+  return entries.map((entry) => `/${entry.slug}`)
+}

@@ -6,6 +6,7 @@ import type { EntryPayload, FieldPayload } from '@/types'
 import type { EncodeDataAttributeCallback } from '@sanity/react-loader/rsc'
 import classNames from 'classnames'
 import entry from '@/sanity/schemas/documents/entry'
+import { ArrowNav } from '@/components/shared/ArrowNav'
 
 export interface EntryProps {
   data: EntryPayload | null
@@ -101,6 +102,7 @@ export async function Entry({ data, encodeDataAttribute }: EntryProps) {
               </p>
             )
           })}
+          <ArrowNav />
         </div>
       </div>
     </div>
