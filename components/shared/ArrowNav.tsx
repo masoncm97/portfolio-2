@@ -2,8 +2,9 @@
 
 import { useRouter, usePathname } from 'next/navigation'
 import { Arrow } from './Arrow'
+
 import { useRouteStore } from '@/lib/store'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState, useMemo } from 'react'
 import { useStore } from 'zustand'
 import Link from 'next/link'
 
@@ -26,6 +27,20 @@ export function ArrowNav({ className }: { className?: string }) {
   )
   const updateCurrentRoute = useRouteStore((state) => state.updateCurrentRoute)
 
+  const memoizedGetNextRoute = useMemo(() => getNextRoute, [getNextRoute])
+  const memoizedGetPreviousRoute = useMemo(
+    () => getPreviousRoute,
+    [getPreviousRoute],
+  )
+  const memoizedUpdateSiblingRoutes = useMemo(
+    () => updateSiblingRoutes,
+    [updateSiblingRoutes],
+  )
+  const memoizedUpdateCurrentRoute = useMemo(
+    () => updateCurrentRoute,
+    [updateCurrentRoute],
+  )
+
   let storedSiblingRoutes = useRouteStore((state) => state.siblingRoutes)
   let storedCurrentRoute = useRouteStore((state) => state.currentRoute)
 
@@ -34,15 +49,15 @@ export function ArrowNav({ className }: { className?: string }) {
   useEffect(() => {
     if (isInitialMount.current) {
       console.log('Setting from storage:', storedSiblingRoutes)
-      updateSiblingRoutes(storedSiblingRoutes)
+      memoizedUpdateSiblingRoutes(storedSiblingRoutes)
       setLoadedStorage(true)
     }
-  }, [storedSiblingRoutes, updateSiblingRoutes])
+  }, [storedSiblingRoutes, memoizedUpdateSiblingRoutes])
 
   useEffect(() => {
     console.log('Setting current path:', slug)
-    updateCurrentRoute(slug)
-  }, [slug, updateCurrentRoute])
+    memoizedUpdateCurrentRoute(slug)
+  }, [slug, memoizedUpdateCurrentRoute])
 
   useEffect(() => {
     router.push(storedCurrentRoute)
@@ -67,7 +82,7 @@ export function ArrowNav({ className }: { className?: string }) {
           const result = await response.json()
 
           // setSiblingRoutes(result)
-          updateSiblingRoutes(result)
+          memoizedUpdateSiblingRoutes(result)
           // setData(result) // Set the data
         } catch (err) {
           setError(err.message) // Handle errors
@@ -79,13 +94,16 @@ export function ArrowNav({ className }: { className?: string }) {
       // Call the fetchData function
       fetchData()
     }
-  }, [storedSiblingRoutes, updateSiblingRoutes, loadedStorage])
+  }, [storedSiblingRoutes, memoizedUpdateSiblingRoutes, loadedStorage])
 
   return (
     <div>
       <Link href="/">shit</Link>
-      <Arrow onClick={() => getPreviousRoute()} className="rotate-180" />
-      <Arrow onClick={() => getNextRoute()} />
+      <Arrow
+        onClick={() => memoizedGetPreviousRoute()}
+        className="rotate-180"
+      />
+      <Arrow onClick={() => memoizedGetNextRoute()} />
     </div>
   )
 }
