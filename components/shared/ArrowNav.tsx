@@ -63,9 +63,9 @@ export function ArrowNav({ className }: { className?: string }) {
     console.log('slug', slug)
     console.log('storedCurrentRoute', storedCurrentRoute)
     console.log('comparison', slug !== storedCurrentRoute)
-    if (slug !== storedCurrentRoute) {
+    if (storedCurrentRoute && slug !== storedCurrentRoute) {
       console.log('refresh')
-      // router.push(storedCurrentRoute)
+      router.push(storedCurrentRoute)
     }
   }, [router, storedCurrentRoute, slug])
 
