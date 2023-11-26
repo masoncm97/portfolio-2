@@ -63,7 +63,7 @@ export function ArrowNav({ className }: { className?: string }) {
     if (slug !== storedCurrentRoute) {
       router.push(storedCurrentRoute)
     }
-  }, [router, storedCurrentRoute])
+  }, [router, storedCurrentRoute, slug])
 
   useEffect(() => {
     if (isInitialMount.current) {
