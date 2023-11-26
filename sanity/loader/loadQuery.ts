@@ -83,7 +83,7 @@ export function loadEntry(slug: string) {
   )
 }
 
-export function loadSlugs() {
+export function loadEntries() {
   return loadQuery<EntriesPayload | null>(
     getAllSlugs,
     {},

@@ -2,8 +2,6 @@ import 'tailwindcss/tailwind.css'
 
 import { IBM_Plex_Mono, Inter, PT_Serif } from 'next/font/google'
 import { Suspense } from 'react'
-import { Providers } from '@/lib/providers'
-
 const serif = PT_Serif({
   variable: '--font-serif',
   style: ['normal', 'italic'],
@@ -32,9 +30,7 @@ export default async function RootLayout({
       lang="en"
       className={`${mono.variable} ${sans.variable} ${serif.variable}`}
     >
-      <body>
-        <Providers>{children}</Providers>
-      </body>
+      <body>{children}</body>
     </html>
   )
 }

@@ -9,9 +9,8 @@ import { resolveHref } from '@/sanity/lib/utils'
 import type { HomePagePayload } from '@/types'
 import { useSearchParams } from 'next/navigation'
 import { generateQuery, generateSiblingRoutes } from '@/lib/client-util'
-import { useContext } from 'react'
-import { useStore } from 'zustand'
-import { RouteContext, RouteProps } from '@/lib/store'
+import { useContext, useEffect } from 'react'
+import { useRouteStore } from '@/lib/store'
 
 export interface HomePageProps {
   data: HomePagePayload | null
@@ -23,15 +22,36 @@ export function HomePage({ data, encodeDataAttribute }: HomePageProps) {
   const { overview = [], entries = [], title = '' } = data ?? {}
 
   const searchParams = useSearchParams()
+  const updateSiblingRoutes = useRouteStore(
+    (state) => state.updateSiblingRoutes,
+  )
   const category = searchParams.get('category')
   const filteredEntries = entries.filter((entry) => {
     return generateQuery(entry.category?.title) === category
   })
   const siblingRoutes = generateSiblingRoutes(entries)
-  const store = useContext(RouteContext)
-  console.log('yes', siblingRoutes)
-  if (!store) throw new Error('Missing RouteContext.Provider in the tree')
-  store.setState({ currentRoute: '', siblingRoutes: siblingRoutes })
+  // const [siblingRoutes, setSiblingRoutes] = useState<string[]>([])
+
+  // useRouteStore((state) => state.updateCurrentRoute)(currentPath)
+  // let storedRoutes = useRouteStore((state) => state.siblingRoutes)
+
+  // useEffect(() => {
+  //   console.log('Setting from storage:', storedRoutes)
+  //   setSiblingRoutes(storedRoutes)
+  // }, [storedRoutes])
+
+  // const store = useContext(RouteContext)
+  // console.log('yes', siblingRoutes)
+  // if (!store) throw new Error('Missing RouteContext.Provider in the tree')
+  // store.setState({ currentRoute: '', siblingRoutes: siblingRoutes })
+
+  // const siblingRoutes2 = useRouteStore((state) =>
+  //   state.updateSiblingRoutes(siblingRoutes),
+  // )
+
+  useEffect(() => {
+    updateSiblingRoutes(siblingRoutes)
+  }, [])
 
   return (
     <div className="space-y-20">
