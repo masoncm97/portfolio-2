@@ -3,7 +3,7 @@
 import { EntryPayload } from '@/types'
 import classNames from 'classnames'
 
-function formatString(str: string): string {
+export function formatString(str: string): string {
   return str.replace(/[\u200B-\u200D\uFEFF]/g, '')
 }
 

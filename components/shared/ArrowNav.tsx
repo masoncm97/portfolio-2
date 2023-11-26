@@ -2,7 +2,7 @@
 
 import { useRouter, usePathname } from 'next/navigation'
 import { Arrow } from './Arrow'
-
+import { formatString } from '@/lib/client-util'
 import { useRouteStore } from '@/lib/store'
 import { useContext, useEffect, useRef, useState, useMemo } from 'react'
 import { useStore } from 'zustand'
@@ -60,8 +60,12 @@ export function ArrowNav({ className }: { className?: string }) {
   }, [slug, memoizedUpdateCurrentRoute])
 
   useEffect(() => {
+    console.log('slug', slug)
+    console.log('storedCurrentRoute', storedCurrentRoute)
+    console.log('comparison', slug !== storedCurrentRoute)
     if (slug !== storedCurrentRoute) {
-      router.push(storedCurrentRoute)
+      console.log('refresh')
+      // router.push(storedCurrentRoute)
     }
   }, [router, storedCurrentRoute, slug])
 
