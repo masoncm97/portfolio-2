@@ -51,7 +51,7 @@ export function HomePage({ data, encodeDataAttribute }: HomePageProps) {
 
   useEffect(() => {
     updateSiblingRoutes(siblingRoutes)
-  }, [])
+  }, [siblingRoutes, updateSiblingRoutes])
 
   return (
     <div className="space-y-20">

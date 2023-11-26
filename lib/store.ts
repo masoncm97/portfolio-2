@@ -104,10 +104,10 @@ function getNextRoute(
 ) {
   if (!siblingRoutes || siblingRoutes.length === 0) return ''
   const index = siblingRoutes.indexOf(currentRoute)
-  if (modifier(index) === siblingRoutes.length) {
+  if (modifier(index) >= siblingRoutes.length) {
     return siblingRoutes[0]
   }
-  if (modifier(index) === 0) {
+  if (modifier(index) <= 0) {
     return siblingRoutes[siblingRoutes.length - 1]
   }
   return siblingRoutes[modifier(index)]

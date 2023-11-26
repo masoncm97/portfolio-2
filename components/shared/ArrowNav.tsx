@@ -13,17 +13,8 @@ export function ArrowNav({ className }: { className?: string }) {
   const arrowPoint = 'w-4 translate-x-[180%]'
   const router = useRouter()
 
-  // const store = useContext(RouteContext)
-
   const isInitialMount = useRef(true)
 
-  // const siblingRoutes = getSiblingRoutes(store)
-  // console.log(siblingRoutes)
-  // const siblingRoutes = useRouteStore((state) => state.siblingRoutes)
-  // console.log(siblingRoutes)
-
-  // const [siblingRoutes, setSiblingRoutes] = useState<string[]>([])
-  // const [currentRoute, setCurrentRoute] = useState<string[]>([])
   const [loadedStorage, setLoadedStorage] = useState<boolean>(false)
 
   const [isLoading, setIsLoading] = useState(false)
@@ -47,16 +38,16 @@ export function ArrowNav({ className }: { className?: string }) {
       updateSiblingRoutes(storedSiblingRoutes)
       setLoadedStorage(true)
     }
-  }, [])
+  }, [storedSiblingRoutes, updateSiblingRoutes])
 
   useEffect(() => {
     console.log('Setting current path:', slug)
     updateCurrentRoute(slug)
-  }, [slug])
+  }, [slug, updateCurrentRoute])
 
   useEffect(() => {
     router.push(storedCurrentRoute)
-  }, [storedCurrentRoute])
+  }, [router, storedCurrentRoute])
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -89,7 +80,7 @@ export function ArrowNav({ className }: { className?: string }) {
       // Call the fetchData function
       fetchData()
     }
-  }, [loadedStorage])
+  }, [storedSiblingRoutes, updateSiblingRoutes, loadedStorage])
 
   return (
     <div>
