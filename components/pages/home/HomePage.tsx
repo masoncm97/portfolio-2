@@ -10,7 +10,7 @@ import type { HomePagePayload } from '@/types'
 import { useSearchParams } from 'next/navigation'
 import { generateQuery, generateSiblingRoutes } from '@/lib/client-util'
 import { useContext, useEffect } from 'react'
-import { useRouteStore } from '@/lib/store'
+import { useRouteStore } from '@/store/store'
 
 export interface HomePageProps {
   data: HomePagePayload | null
