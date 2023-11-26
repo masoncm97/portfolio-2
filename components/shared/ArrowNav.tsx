@@ -2,7 +2,6 @@
 
 import { useRouter, usePathname } from 'next/navigation'
 import { Arrow } from './Arrow'
-import { getSiblingRoutes } from '@/lib/getSiblingRoutes'
 import { useRouteStore } from '@/lib/store'
 import { useContext, useEffect, useRef, useState } from 'react'
 import { useStore } from 'zustand'
