@@ -15,6 +15,8 @@ export function useSetCurrentPath(
 
   // If stored route (currentRoute) is updated, push it onto the router
   useEffect(() => {
-    router.push(currentRoute)
-  }, [router, currentRoute])
+    if (currentRoute && newSlug !== currentRoute) {
+      router.push(currentRoute)
+    }
+  }, [router, currentRoute, newSlug])
 }
