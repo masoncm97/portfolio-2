@@ -59,9 +59,9 @@ export function ArrowNav({ className }: { className?: string }) {
     memoizedUpdateCurrentRoute(slug)
   }, [slug, memoizedUpdateCurrentRoute])
 
-  useEffect(() => {
-    router.push(storedCurrentRoute)
-  }, [router, storedCurrentRoute])
+  // useEffect(() => {
+  //   router.push(storedCurrentRoute)
+  // }, [router, storedCurrentRoute])
 
   useEffect(() => {
     if (isInitialMount.current) {
