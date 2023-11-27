@@ -28,42 +28,6 @@ export async function Entry({ data, encodeDataAttribute }: EntryProps) {
     ['date', date],
   ])
 
-  // function generateTableStyles(
-  //   table: Map<string, string | undefined>,
-  // ): Map<string, TableElementValue | undefined> {
-  //   const tableData = new Map<string, TableElementValue | undefined>([])
-  //   Array.from(table).map(([key, value], index) => {
-  //     tableData.set(key, {
-  //       value: value,
-  //       style: getTableElementStyle(index, table.size, true),
-  //     })
-  //   })
-  //   return tableData
-  // }
-
-  // const tableData = generateTableStyles(table)
-
-  // console.log('tableData', tableData)
-
-  // const entryData = await generateTable([title, location, description, date])
-
-  // const entryData = new Map<string, TableElementValue | undefined>([
-  //   ['title', {value: title, style: getTableElementStyle(0, 4, true)}]
-  // ]);
-
-  // const entryData = new Map<string, TableElementValue | undefined>([
-  //   ['title', { value: title, style: getTableElementStyle(0, 4, true) }],
-  //   ['location', { value: title, style: getTableElementStyle(0, 4, true) }],
-  //   ['description', { value: title, style: getTableElementStyle(0, 4, true) }],
-  //   ['date', { value: title, style: getTableElementStyle(0, 4, true) }],
-  // ])
-
-  // const tableElementStyle = await getTableElementStyle(
-  //   index,
-  //   entryData.size,
-  //   true,
-  // )
-
   return (
     <div>
       <div className="mb-14">
