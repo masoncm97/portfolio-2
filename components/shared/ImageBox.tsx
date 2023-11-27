@@ -83,15 +83,18 @@ export default function ImageBox({
             }
           }
         }
-        return () => {
-          if (src) {
-            URL.revokeObjectURL(src)
-            console.log('Blob URL revoked')
-          }
-        }
       })(),
-    [siblingAssets, assetMap, currentRoute, src, mode],
+    [siblingAssets, assetMap, currentRoute, mode],
   )
+
+  useEffect(() => {
+    return () => {
+      if (src) {
+        URL.revokeObjectURL(src)
+        console.log('Blob URL revoked on unmount')
+      }
+    }
+  }, [])
 
   // Check to see if image
   return (
