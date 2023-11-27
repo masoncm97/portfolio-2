@@ -1,5 +1,5 @@
 import useAccessRouteStore from './useAccessRouteStore'
-import { useSetCurrentPath } from './useSetCurrentPath'
+import { useUpdatePageSlug } from './useUpdatePageSlug'
 import { useSetSiblingPaths } from './useSetSiblingRoutes'
 
 export function useEntryNavigation() {
@@ -11,7 +11,7 @@ export function useEntryNavigation() {
     nextRoute,
     previousRoute,
   } = useAccessRouteStore()
-  useSetCurrentPath(currentRoute, updateCurrentRoute)
+  useUpdatePageSlug(currentRoute, updateCurrentRoute)
   let error = useSetSiblingPaths(updateSiblingRoutes, siblingRoutes)
 
   return [nextRoute, previousRoute, error]

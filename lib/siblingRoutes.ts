@@ -1,7 +1,7 @@
-'use server'
+// 'use server'
 
-import { loadEntries } from '@/sanity/loader/loadQuery'
+// import { loadEntries } from '@/sanity/loader/loadQuery'
 
-export async function generateSiblingRoutes() {
-  await loadEntries()
-}
+// export async function generateSiblingRoutes() {
+//   await loadEntries()
+// }

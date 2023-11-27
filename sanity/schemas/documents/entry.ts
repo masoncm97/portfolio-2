@@ -89,9 +89,6 @@ export default defineType({
           icon: ImageIcon,
           name: 'image',
           title: 'Image',
-          options: {
-            hotspot: true,
-          },
           preview: {
             select: {
               imageUrl: 'asset.url',
@@ -119,17 +116,11 @@ export default defineType({
       name: 'image',
       title: 'Image',
       type: 'image',
-      options: {
-        hotspot: true,
-      },
     }),
     defineField({
       name: 'secondaryImage',
       title: 'Secondary Image',
       type: 'image',
-      options: {
-        hotspot: true,
-      },
     }),
     defineField({
       name: 'location',

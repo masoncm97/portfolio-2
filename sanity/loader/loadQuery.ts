@@ -6,7 +6,7 @@ import {
   homePageQuery,
   entryBySlugQuery,
   settingsQuery,
-  getAllSlugs,
+  getAllEntries,
 } from '@/sanity/lib/queries'
 import { token } from '@/sanity/lib/token'
 import {
@@ -85,7 +85,15 @@ export function loadEntry(slug: string) {
 
 export function loadEntries() {
   return loadQuery<EntriesPayload | null>(
-    getAllSlugs,
+    getAllEntries,
+    {},
+    { next: { tags: ['slugs'] } },
+  )
+}
+
+export function loadImages() {
+  return loadQuery<EntriesPayload | null>(
+    getAllEntries,
     {},
     { next: { tags: ['slugs'] } },
   )

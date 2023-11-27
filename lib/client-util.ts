@@ -35,3 +35,24 @@ export function generateSiblingRoutes(
   if (!entries) return []
   return entries.map((entry) => `/${entry.slug}`)
 }
+
+export function generateAssetMap(
+  entries: EntryPayload[] | undefined,
+): Map<string, string> {
+  let map = new Map()
+  if (!entries) return map
+  entries.forEach((entry) => {
+    if (entry.image) {
+      map.set(
+        entry.slug,
+        trimImageSubstring(entry.image?.asset?._ref?.toString()),
+      )
+    }
+  })
+  return map
+}
+
+function trimImageSubstring(str: string | undefined): string | undefined {
+  if (!str) return undefined
+  return str.replace(/^image-/, '')
+}

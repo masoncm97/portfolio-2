@@ -8,8 +8,12 @@ import { Header } from '@/components/shared/Header'
 import { resolveHref } from '@/sanity/lib/utils'
 import type { HomePagePayload } from '@/types'
 import { useSearchParams } from 'next/navigation'
-import { generateQuery, generateSiblingRoutes } from '@/lib/client-util'
-import { useContext, useEffect } from 'react'
+import {
+  generateQuery,
+  generateSiblingRoutes,
+  generateAssetMap,
+} from '@/lib/client-util'
+import { use, useContext, useEffect } from 'react'
 import { useRouteStore } from '@/store/store'
 
 export interface HomePageProps {
@@ -25,33 +29,26 @@ export function HomePage({ data, encodeDataAttribute }: HomePageProps) {
   const updateSiblingRoutes = useRouteStore(
     (state) => state.updateSiblingRoutes,
   )
+  const updateAssetMap = useRouteStore((state) => state.updateAssetMap)
+
   const category = searchParams.get('category')
+
   const filteredEntries = entries.filter((entry) => {
     return generateQuery(entry.category?.title) === category
   })
+
+  console.log(entries)
+
   const siblingRoutes = generateSiblingRoutes(entries)
-  // const [siblingRoutes, setSiblingRoutes] = useState<string[]>([])
-
-  // useRouteStore((state) => state.updateCurrentRoute)(currentPath)
-  // let storedRoutes = useRouteStore((state) => state.siblingRoutes)
-
-  // useEffect(() => {
-  //   console.log('Setting from storage:', storedRoutes)
-  //   setSiblingRoutes(storedRoutes)
-  // }, [storedRoutes])
-
-  // const store = useContext(RouteContext)
-  // console.log('yes', siblingRoutes)
-  // if (!store) throw new Error('Missing RouteContext.Provider in the tree')
-  // store.setState({ currentRoute: '', siblingRoutes: siblingRoutes })
-
-  // const siblingRoutes2 = useRouteStore((state) =>
-  //   state.updateSiblingRoutes(siblingRoutes),
-  // )
+  const assetMap = generateAssetMap(entries)
 
   useEffect(() => {
     updateSiblingRoutes(siblingRoutes)
   }, [siblingRoutes, updateSiblingRoutes])
+
+  useEffect(() => {
+    updateAssetMap(assetMap)
+  }, [assetMap, updateAssetMap])
 
   return (
     <div className="space-y-20">

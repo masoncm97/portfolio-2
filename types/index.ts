@@ -1,5 +1,7 @@
 import type { PortableTextBlock } from '@portabletext/types'
-import type { Image } from 'sanity'
+import type { Image, ImageDefinition } from 'sanity'
+
+export type ImagePayload = Image & ImageDefinition
 
 export interface MenuItem {
   _type: string
@@ -20,7 +22,7 @@ export interface SettingsPayload {
   title?: string
   footer?: PortableTextBlock[]
   menuItems?: MenuItem[]
-  ogImage?: Image
+  ogImage?: ImagePayload
 }
 
 export interface EntryPayload {
@@ -31,7 +33,7 @@ export interface EntryPayload {
   description?: string
   content?: string
   body?: PortableTextBlock[]
-  image?: Image
+  image?: ImagePayload
   location?: string
   slug?: string
   title?: string

@@ -1,13 +1,7 @@
 'use client'
 
-import { useRouter, usePathname } from 'next/navigation'
 import { Arrow } from './Arrow'
-import { useEffect, useRef, useState } from 'react'
-import useAccessRouteStore from '@/hooks/useAccessRouteStore'
 import Link from 'next/link'
-import { useSetCurrentPath } from '@/hooks/useSetCurrentPath'
-import { useUpdateSlug } from '@/hooks/useUpdateSlug'
-import { useSetSiblingPaths } from '@/hooks/useSetSiblingRoutes'
 import { useEntryNavigation } from '@/hooks/useEntryNavigation'
 
 export function ArrowNav({ className }: { className?: string }) {

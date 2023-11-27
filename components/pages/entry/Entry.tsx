@@ -20,16 +20,6 @@ interface TableElementValue {
 export async function Entry({ data, encodeDataAttribute }: EntryProps) {
   // Default to an empty object to allow previews on non-existent documents
   const { title, location, description, date, image } = data ?? {}
-  console.log('data', data)
-
-  // async function generateTable(
-  //   values: (string | undefined)[],
-  // ): Promise<Map<string, TableElementValue | undefined>> {
-  //   values.map((value, index) => {
-  //     getTableElementStyle(index, values.length, true)
-  //   })
-  //   return new Map<string, TableElementValue | undefined>([])
-  // }
 
   const table = new Map<string, string | undefined>([
     ['title', title],

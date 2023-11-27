@@ -48,9 +48,10 @@ export const settingsQuery = groq`
   }
 `
 
-export const getAllSlugs = groq`
+export const getAllEntries = groq`
  *[_type == "home"][0]{
     entries[]->{
+      image, 
       "slug": slug.current,
     }
   }

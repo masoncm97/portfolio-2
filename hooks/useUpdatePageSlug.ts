@@ -1,18 +1,14 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
+import { useUpdateCurrentRoute } from './useUpdateCurrentRoute'
 
-export function useSetCurrentPath(
+export function useUpdatePageSlug(
   currentRoute: string,
   updateCurrentRoute: (currentRoute: string) => void,
 ) {
   const router = useRouter()
-  const newSlug = usePathname()
   const isInitialMount = useRef(true)
-
-  // Update stored route (currentRoute) when the slug changes
-  useEffect(() => {
-    updateCurrentRoute(newSlug)
-  }, [newSlug, updateCurrentRoute])
+  const newSlug = useUpdateCurrentRoute(updateCurrentRoute)
 
   // If stored route (currentRoute) is updated after the initial render, push it onto the router
   useEffect(() => {
@@ -21,7 +17,7 @@ export function useSetCurrentPath(
       return
     }
     if (currentRoute && newSlug !== currentRoute) {
-      router.push(currentRoute)
+      router.push(`${currentRoute}?mode=navigation`)
     }
   }, [router, currentRoute, newSlug])
 }
