@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 
-export async function useGetSiblingAssets(siblingAssets: string[]) {
+export async function useGetSiblingAssets(siblingAssets: Map<string, string>) {
   const [error, setError] = useState(null)
   useEffect(() => {
-    if (siblingAssets && siblingAssets.length > 0) {
+    if (siblingAssets && siblingAssets.size > 0) {
       let cache
       const fetchData = async (imageRef: string) => {
         cache = await caches.open('sibling-asset-cache')
         const cachedResponse = await cache.match(imageRef)
-        console.log('loading siblings from api', siblingAssets)
         if (!cachedResponse) {
           setError(null)
           try {
@@ -24,11 +23,13 @@ export async function useGetSiblingAssets(siblingAssets: string[]) {
         }
       }
 
-      siblingAssets.forEach((imageRef) => {
-        fetchData(imageRef)
+      siblingAssets.forEach((value) => {
+        fetchData(value)
       })
     }
   }, [siblingAssets, createSanityImageUrl])
+
+  return error
 }
 
 function createSanityImageUrl(imageId: string): string {

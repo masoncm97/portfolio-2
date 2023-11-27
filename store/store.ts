@@ -3,7 +3,7 @@ import { create } from 'zustand'
 type RouteState = {
   currentRoute: string
   siblingRoutes: string[]
-  siblingAssets: string[]
+  siblingAssets: Map<string, string>
   assetMap: Map<string, string>
 }
 
@@ -21,7 +21,7 @@ export type RouteStore = RouteState & RouteActions
 export const useRouteStore = create<RouteState & RouteActions>()((set) => ({
   currentRoute: '',
   siblingRoutes: [],
-  siblingAssets: [],
+  siblingAssets: new Map(),
   assetMap: new Map(),
   updateCurrentRoute: (currentRoute) =>
     set(() => ({ currentRoute: currentRoute })),
@@ -56,33 +56,38 @@ function getNextRoute(
   modifier: (number) => number,
 ) {
   if (!siblingRoutes || siblingRoutes.length === 0) return ''
-  const index = siblingRoutes.indexOf(currentRoute)
-  if (modifier(index) >= siblingRoutes.length) {
-    return siblingRoutes[0]
-  }
-  if (modifier(index) <= 0) {
-    return siblingRoutes[siblingRoutes.length - 1]
-  }
-  return siblingRoutes[modifier(index)]
+
+  const currentIndex = siblingRoutes.indexOf(currentRoute)
+  if (currentIndex === -1) return ''
+
+  // Apply the modifier function and ensure the result is within bounds using modulo
+  const newIndex = modifier(currentIndex) % siblingRoutes.length
+
+  // Adjust for negative indices resulting from the modifier function
+  return siblingRoutes[
+    newIndex < 0 ? newIndex + siblingRoutes.length : newIndex
+  ]
 }
 
 function getSiblingAssets(
   currentRoute: string,
   assetMap: Map<string, string>,
-): string[] {
-  console.log('lit', currentRoute)
-  if (!currentRoute || !assetMap || assetMap.size === 0) return []
+): Map<string, string> {
+  if (!currentRoute || assetMap.size === 0) return new Map<string, string>()
 
-  let assetArray = Array.from(assetMap)
-  let currentKey = trimLeadingSlash(currentRoute)
-  let index = assetArray.findIndex((asset) => asset[0] === currentKey)
+  const assetArray = Array.from(assetMap)
+  const currentKey = trimLeadingSlash(currentRoute)
+  const index = assetArray.findIndex((asset) => asset[0] === currentKey)
 
-  if (index === 0)
-    return [assetArray[assetArray.length - 1][1], assetArray[index + 1][1]]
-  if (index === assetArray.length - 1)
-    return [assetArray[index - 1][1], assetArray[0][1]]
-  if (index === -1) return []
-  return [assetArray[index - 1][1], assetArray[index + 1][1]]
+  // Helper function to get the asset at a given index, wrapping around if necessary
+  function getAssetAt(index: number): [string, string] {
+    const validIndex = (index + assetArray.length) % assetArray.length
+    return assetArray[validIndex]
+  }
+
+  if (index === -1) return new Map<string, string>()
+
+  return new Map<string, string>([getAssetAt(index - 1), getAssetAt(index + 1)])
 }
 
 function trimLeadingSlash(str: string): string {
