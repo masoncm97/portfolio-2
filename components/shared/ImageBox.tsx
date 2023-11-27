@@ -90,7 +90,7 @@ export default function ImageBox({
           }
         }
       })(),
-    [siblingAssets, mode],
+    [siblingAssets, assetMap, currentRoute, src, mode],
   )
 
   // Check to see if image
