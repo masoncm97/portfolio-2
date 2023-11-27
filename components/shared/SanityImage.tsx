@@ -48,17 +48,14 @@ export default function SanityImage({
       className={`w-full rounded-[3px] bg-gray-50 ${classesWrapper}`}
       data-sanity={props['data-sanity']}
     >
-      <div>
-        <p>not chached image baybe</p>
-        <Img
-          {...imageProps}
-          className="absolute h-full w-full"
-          alt={alt}
-          width={width}
-          height={height}
-          sizes={size}
-        />
-      </div>
+      <Img
+        {...imageProps}
+        className="absolute h-full w-full"
+        alt={alt}
+        width={width}
+        height={height}
+        sizes={size}
+      />
     </div>
   )
 }

@@ -9,7 +9,7 @@ import Image from 'next/image'
 import { Footer } from '@/components/global/Footer'
 import { Navbar } from '@/components/global/Navbar'
 import { urlForOpenGraphImage } from '@/sanity/lib/utils'
-import { loadHomePage, loadSettings } from '@/sanity/loader/loadQuery'
+// import { loadHomePage, loadSettings } from '@/sanity/loader/loadQuery'
 // import { BackArrow } from '@/components/shared/Arrow'
 import Link from 'next/link'
 

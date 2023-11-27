@@ -56,3 +56,7 @@ function trimImageSubstring(str: string | undefined): string | undefined {
   if (!str) return undefined
   return str.replace(/^image-/, '')
 }
+
+export function trimLeadingSlash(str: string): string {
+  return str.replace(/^\//, '')
+}

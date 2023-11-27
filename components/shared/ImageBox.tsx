@@ -13,6 +13,9 @@ import { useSetAssetMap } from '@/hooks/useSetAssetMap'
 import { useGetSiblingAssets } from '@/hooks/useGetSiblingAssets'
 import { useSearchParams } from 'next/navigation'
 import SanityImage from './SanityImage'
+import { useLoadSiblingAssets } from '@/hooks/useLoadSiblingAssets'
+import classNames from 'classnames'
+import { trimLeadingSlash } from '@/lib/client-util'
 
 interface ImageBoxProps {
   image?: Image
@@ -43,17 +46,9 @@ export default function ImageBox({
     updateCurrentRoute,
     updateAssetMap,
   } = useAccessRouteStore()
-  const [src, setSrc] = useState('')
-  const blobUrlRef = useRef<string | null>(null)
   useUpdateCurrentRoute(updateCurrentRoute)
   useSetAssetMap(updateAssetMap, assetMap)
   useGetSiblingAssets(siblingAssets)
-  const [loadedCachedImage, setLoadedCachedImage] = useState(false)
-  // const cache = await caches.open('my-cache')
-
-  console.log('currentRoute from ImageBox', currentRoute)
-  console.log('assetMap from ImageBox', assetMap)
-  console.log('siblingAssets from ImageBox', siblingAssets)
 
   const searchParams = useSearchParams()
   const mode = searchParams.get('mode')
@@ -62,71 +57,34 @@ export default function ImageBox({
     updateSiblingAssets()
   }, [assetMap, updateSiblingAssets])
 
-  useEffect(
-    () =>
-      void (async () => {
-        if (mode === 'navigation') {
-          const currentKey = trimLeadingSlash(currentRoute)
-          console.log('currentKey', currentKey)
-          const currentAsset = assetMap.get(currentKey)
-          console.log('currentAsset', currentAsset)
-          const cache = await caches.open('sibling-asset-cache')
-          if (currentAsset) {
-            const resp = await cache.match(currentAsset)
-            console.log('resp', resp)
-            const blob = await resp?.blob()
-            console.log('blob', blob)
-            if (blob) {
-              const img = URL.createObjectURL(blob)
-              console.log('img', img)
-              setSrc(img)
-              setLoadedCachedImage(true)
-            }
-          }
-        }
-      })(),
-    [siblingAssets, assetMap, currentRoute, mode],
-  )
-
-  useEffect(() => {
-    blobUrlRef.current = src
-  }, [src])
-
-  useEffect(() => {
-    return () => {
-      if (blobUrlRef.current) {
-        URL.revokeObjectURL(blobUrlRef.current)
-        console.log('Blob URL revoked on unmount')
-      }
-    }
-  }, [])
-
-  // Check to see if image
+  const srcs = useLoadSiblingAssets(mode, currentRoute, assetMap, siblingAssets)
+  console.log('srcs from ImageBox', srcs)
+  console.log(currentRoute)
   return (
     <div
       className={`w-full rounded-[3px] bg-gray-50 ${classesWrapper}`}
       data-sanity={props['data-sanity']}
     >
-      {mode && mode === 'navigation' && src && loadedCachedImage ? (
+      {mode && mode === 'navigation' ? (
         <div>
-          <p>chached image baybe</p>
-          <Img
-            src={src}
-            className="absolute h-full w-full"
-            alt={alt}
-            width={width}
-            height={height}
-            sizes={size}
-          />
+          {Array.from(srcs).map(([key, value]) => (
+            <Img
+              key={key}
+              src={value}
+              className={classNames(
+                key === trimLeadingSlash(currentRoute) ? 'z-10' : 'z-0',
+                'absolute h-full w-full',
+              )}
+              alt={alt}
+              width={width}
+              height={height}
+              sizes={size}
+            />
+          ))}
         </div>
       ) : (
-        // <SanityImage image={image} />
-        <div></div>
+        <SanityImage image={image} />
       )}
     </div>
   )
-}
-
-function trimLeadingSlash(str: string): string {
-  return str.replace(/^\//, '')
 }

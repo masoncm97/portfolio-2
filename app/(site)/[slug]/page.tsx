@@ -16,19 +16,19 @@ type Props = {
   params: { slug: string }
 }
 
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata,
-): Promise<Metadata> {
-  const { data: entry } = await loadEntry(params.slug)
+// export async function generateMetadata(
+//   { params }: Props,
+//   parent: ResolvingMetadata,
+// ): Promise<Metadata> {
+//   const { data: entry } = await loadEntry(params.slug)
 
-  return {
-    title: entry?.title,
-    description: entry?.description
-      ? entry.description
-      : (await parent).description,
-  }
-}
+//   return {
+//     title: entry?.title,
+//     description: entry?.description
+//       ? entry.description
+//       : (await parent).description,
+//   }
+// }
 
 export function generateStaticParams() {
   return generateStaticSlugs('entry')
