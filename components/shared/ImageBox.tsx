@@ -7,7 +7,7 @@ import type { Image } from 'sanity'
 import { customImageBuilder } from '@/sanity/lib/utils'
 import { decode } from 'blurhash'
 import useAccessRouteStore from '@/hooks/useAccessRouteStore'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useUpdateCurrentRoute } from '@/hooks/useUpdateCurrentRoute'
 import { useSetAssetMap } from '@/hooks/useSetAssetMap'
 import { useGetSiblingAssets } from '@/hooks/useGetSiblingAssets'
@@ -44,6 +44,7 @@ export default function ImageBox({
     updateAssetMap,
   } = useAccessRouteStore()
   const [src, setSrc] = useState('')
+  const blobUrlRef = useRef<string | null>(null)
   useUpdateCurrentRoute(updateCurrentRoute)
   useSetAssetMap(updateAssetMap, assetMap)
   useGetSiblingAssets(siblingAssets)
@@ -88,9 +89,13 @@ export default function ImageBox({
   )
 
   useEffect(() => {
+    blobUrlRef.current = src
+  }, [src])
+
+  useEffect(() => {
     return () => {
-      if (src) {
-        URL.revokeObjectURL(src)
+      if (blobUrlRef.current) {
+        URL.revokeObjectURL(blobUrlRef.current)
         console.log('Blob URL revoked on unmount')
       }
     }
