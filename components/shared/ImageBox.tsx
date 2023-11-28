@@ -58,8 +58,8 @@ export default function ImageBox({
   }, [assetMap, updateSiblingAssets])
 
   const srcs = useLoadSiblingAssets(mode, currentRoute, assetMap, siblingAssets)
-  console.log('srcs from ImageBox', srcs)
-  console.log(currentRoute)
+  // console.log('srcs from ImageBox', srcs)
+  // console.log(currentRoute)
   return (
     <div
       className={`w-full rounded-[3px] bg-gray-50 ${classesWrapper}`}

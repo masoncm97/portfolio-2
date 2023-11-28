@@ -7,9 +7,9 @@ export function useUpdateSlug(
   router: AppRouterInstance,
 ) {
   useEffect(() => {
-    console.log('slug', slugInUse)
-    console.log('storedCurrentRoute', currentRoute)
-    console.log('comparison', slugInUse !== currentRoute)
+    // console.log('slug', slugInUse)
+    // console.log('storedCurrentRoute', currentRoute)
+    // console.log('comparison', slugInUse !== currentRoute)
     if (currentRoute && slugInUse !== currentRoute) {
       router.push(currentRoute)
     }

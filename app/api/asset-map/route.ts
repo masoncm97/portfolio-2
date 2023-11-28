@@ -8,7 +8,7 @@ export async function GET() {
 
 async function generateAssetMap(): Promise<Map<string, string>> {
   const { data } = await loadEntries()
-  console.log('data', data?.entries?.length)
+  // console.log('data', data?.entries?.length)
 
   let map = new Map()
   data?.entries?.forEach((entry) => {
@@ -19,7 +19,7 @@ async function generateAssetMap(): Promise<Map<string, string>> {
       )
     }
   })
-  console.log(map)
+  // console.log(map)
   return map
 }
 

@@ -11,10 +11,12 @@ export default function useAccessRouteStore(): RouteStore {
   )
   const updateCurrentRoute = useRouteStore((state) => state.updateCurrentRoute)
   const updateAssetMap = useRouteStore((state) => state.updateAssetMap)
+  const updateAllEntries = useRouteStore((state) => state.updateAllEntries)
   let siblingRoutes = useRouteStore((state) => state.siblingRoutes)
   let siblingAssets = useRouteStore((state) => state.siblingAssets)
   let currentRoute = useRouteStore((state) => state.currentRoute)
   let assetMap = useRouteStore((state) => state.assetMap)
+  let entries = useRouteStore((state) => state.entries)
 
   return {
     nextRoute,
@@ -23,9 +25,11 @@ export default function useAccessRouteStore(): RouteStore {
     updateSiblingAssets,
     updateCurrentRoute,
     updateAssetMap,
+    updateAllEntries,
     siblingRoutes,
     siblingAssets,
     currentRoute,
     assetMap,
+    entries,
   }
 }

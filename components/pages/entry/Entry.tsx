@@ -7,16 +7,19 @@ import type { EncodeDataAttributeCallback } from '@sanity/react-loader/rsc'
 import classNames from 'classnames'
 import entry from '@/sanity/schemas/documents/entry'
 import { ArrowNav } from '@/components/shared/ArrowNav'
+// import useAccessRouteStore from '@/hooks/useAccessRouteStore'
+import { useRouteStore } from '@/store/store'
 
 export interface EntryProps {
   data: EntryPayload | null
   encodeDataAttribute?: EncodeDataAttributeCallback
 }
 
-interface TableElementValue {
-  value: string | undefined
-  style: string | undefined
-}
+// interface TableElementValue {
+//   value: string | undefined
+//   style: string | undefined
+// }
+
 export async function Entry({ data, encodeDataAttribute }: EntryProps) {
   // Default to an empty object to allow previews on non-existent documents
   const { title, location, description, date, image } = data ?? {}
@@ -27,6 +30,10 @@ export async function Entry({ data, encodeDataAttribute }: EntryProps) {
     ['description', description],
     ['date', date],
   ])
+
+  // const { entries } = useAccessRouteStore()
+  // console.log('yes', useRouteStore.getState().entries)
+  // console.log('entries from Entry', entries)
 
   return (
     <div>

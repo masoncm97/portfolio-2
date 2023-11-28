@@ -51,8 +51,16 @@ export const settingsQuery = groq`
 export const getAllEntries = groq`
  *[_type == "home"][0]{
     entries[]->{
+      _type,
+      category->{title},
+      date, 
+      description, 
+      content, 
       image, 
+      secondaryImage,
+      location, 
       "slug": slug.current,
-    }
+      title,
+    },
   }
 `

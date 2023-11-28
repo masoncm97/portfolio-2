@@ -16,7 +16,9 @@ export interface HomePagePayload {
   title?: string
 }
 
-export type EntriesPayload = Pick<HomePagePayload, 'entries'>
+export interface EntriesPayload {
+  entries?: EntryPayload[]
+}
 
 export interface SettingsPayload {
   title?: string

@@ -1,40 +1,39 @@
+import { EntryPayload } from '@/types'
 import { useEffect, useRef, useState } from 'react'
 
-export function useSetAssetMap(
-  updateAssetMap: (assetMap: Map<string, string>) => void,
-  assetMap: Map<string, string>,
+export function useGetAllEntries(
+  updateAllEntries: (entries: EntryPayload[]) => void,
+  entries: EntryPayload[],
 ) {
   const isInitialMount = useRef(true)
   const [loadedStorage, setLoadedStorage] = useState<boolean>(false)
   const [error, setError] = useState(null)
 
-  // Try to load siblingRoutes from local state only on initial render
+  // Try to load entries from local state only on initial render
   useEffect(() => {
     if (isInitialMount.current) {
-      // console.log('loading from storage')
-      updateAssetMap(assetMap)
+      updateAllEntries(entries)
       setLoadedStorage(true)
     }
-  }, [assetMap, updateAssetMap])
+  }, [entries, updateAllEntries])
 
-  // If unable to load assetMap from local state, fetch from API
+  // If unable to load entries from local state, fetch from Sanity API
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false
       return
     }
-    if (!assetMap || assetMap.size === 0) {
+    if (!entries || entries.length === 0) {
       const fetchData = async () => {
-        // console.log('loading from api')
         setError(null)
         try {
-          const response = await fetch('/api/asset-map')
+          const response = await fetch('/api/entries')
           if (!response.ok) {
             throw new Error(`Error: ${response.status}`)
           }
           const result = await response.json()
-          const returnedMap = new Map<string, string>(result)
-          updateAssetMap(returnedMap)
+          console.log('yahoo', result)
+          updateAllEntries(result)
         } catch (err) {
           setError(err.message)
         }
@@ -42,7 +41,7 @@ export function useSetAssetMap(
 
       fetchData()
     }
-  }, [assetMap, updateAssetMap, loadedStorage])
+  }, [entries, updateAllEntries, loadedStorage])
 
   return error
 }

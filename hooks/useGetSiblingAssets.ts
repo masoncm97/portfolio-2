@@ -11,7 +11,7 @@ export async function useGetSiblingAssets(siblingAssets: Map<string, string>) {
         if (!cachedResponse) {
           setError(null)
           try {
-            console.log('image not in cache: fetching...')
+            // console.log('image not in cache: fetching...')
             await fetch(createSanityImageUrl(imageRef)).then((response) =>
               cache.put(imageRef, response),
             )
@@ -19,7 +19,7 @@ export async function useGetSiblingAssets(siblingAssets: Map<string, string>) {
             setError(err.message)
           }
         } else {
-          console.log('image in cache')
+          // console.log('image in cache')
         }
       }
 

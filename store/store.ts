@@ -1,3 +1,4 @@
+import { EntryPayload } from '@/types'
 import { create } from 'zustand'
 
 type RouteState = {
@@ -5,17 +6,22 @@ type RouteState = {
   siblingRoutes: string[]
   siblingAssets: Map<string, string>
   assetMap: Map<string, string>
+  entries: EntryPayload[]
 }
 
 type RouteActions = {
   updateCurrentRoute: (currentRoute: RouteState['currentRoute']) => void
   updateSiblingRoutes: (siblingRoutes: RouteState['siblingRoutes']) => void
   updateAssetMap: (assetMap: RouteState['assetMap']) => void
+  updateAllEntries: (assetMap: RouteState['entries']) => void
   nextRoute: () => void
   previousRoute: () => void
   updateSiblingAssets: () => void
 }
 
+async function generateSiblingRoutes(entries: EntryPayload[]) {
+  return entries.map((entry) => `/${entry.slug}`)
+}
 export type RouteStore = RouteState & RouteActions
 
 export const useRouteStore = create<RouteState & RouteActions>()((set) => ({
@@ -23,11 +29,13 @@ export const useRouteStore = create<RouteState & RouteActions>()((set) => ({
   siblingRoutes: [],
   siblingAssets: new Map(),
   assetMap: new Map(),
+  entries: [],
   updateCurrentRoute: (currentRoute) =>
     set(() => ({ currentRoute: currentRoute })),
   updateSiblingRoutes: (siblingRoutes) =>
     set(() => ({ siblingRoutes: siblingRoutes })),
   updateAssetMap: (assetMap) => set(() => ({ assetMap: assetMap })),
+  updateAllEntries: (entries) => set(() => ({ entries: entries })),
   nextRoute: () =>
     set((state) => ({
       currentRoute: getNextRoute(
