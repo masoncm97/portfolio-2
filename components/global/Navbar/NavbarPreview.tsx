@@ -9,7 +9,7 @@ type Props = {
 }
 
 export default function NavbarPreview(props: Props) {
-  const { data } = useSettings(props.initial)
+  const data = ['s', 's']
 
-  return <NavbarLayout data={data!} />
+  return <NavbarLayout data={data} />
 }
