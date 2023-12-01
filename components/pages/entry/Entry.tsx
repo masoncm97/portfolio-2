@@ -31,6 +31,17 @@ export async function Entry({ data, encodeDataAttribute }: EntryProps) {
     ['date', date],
   ])
 
+  const entries = useRouteStore.getState().entries
+  useRouteStore.getState().updateSiblingRoutes()
+  const siblingRoutes = useRouteStore.getState().siblingRoutes
+  const currentRoute = useRouteStore.getState().currentRoute
+  console.log(siblingRoutes)
+  console.log(currentRoute)
+  // useRouteStore.getState().nextRoute()
+  // useRouteStore.getState().previousRoute()
+
+  // console.log('hi', useRouteStore.getState().entries)
+
   // const { entries } = useAccessRouteStore()
   // console.log('yes', useRouteStore.getState().entries)
   // console.log('entries from Entry', entries)
@@ -63,7 +74,7 @@ export async function Entry({ data, encodeDataAttribute }: EntryProps) {
               </p>
             )
           })}
-          <ArrowNav />
+          <ArrowNav entries={entries} />
         </div>
       </div>
     </div>

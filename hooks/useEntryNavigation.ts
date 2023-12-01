@@ -11,8 +11,8 @@ export function useEntryNavigation() {
     nextRoute,
     previousRoute,
   } = useAccessRouteStore()
-  useUpdatePageSlug(currentRoute, updateCurrentRoute)
-  let error = useSetSiblingPaths(updateSiblingRoutes, siblingRoutes)
+  // useUpdatePageSlug(currentRoute, updateCurrentRoute)
+  // let error = useSetSiblingPaths(updateSiblingRoutes, siblingRoutes)
 
-  return [nextRoute, previousRoute, error]
+  // return [nextRoute, previousRoute, error]
 }

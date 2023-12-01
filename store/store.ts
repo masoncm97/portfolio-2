@@ -4,6 +4,8 @@ import { create } from 'zustand'
 type RouteState = {
   currentRoute: string
   siblingRoutes: string[]
+  next: string
+  previous: string
   siblingAssets: Map<string, string>
   assetMap: Map<string, string>
   entries: EntryPayload[]
@@ -11,7 +13,7 @@ type RouteState = {
 
 type RouteActions = {
   updateCurrentRoute: (currentRoute: RouteState['currentRoute']) => void
-  updateSiblingRoutes: (siblingRoutes: RouteState['siblingRoutes']) => void
+  updateSiblingRoutes: () => void
   updateAssetMap: (assetMap: RouteState['assetMap']) => void
   updateAllEntries: (assetMap: RouteState['entries']) => void
   nextRoute: () => void
@@ -19,44 +21,77 @@ type RouteActions = {
   updateSiblingAssets: () => void
 }
 
-async function generateSiblingRoutes(entries: EntryPayload[]) {
+function generateSiblingRoutes(entries: EntryPayload[]) {
   return entries.map((entry) => `/${entry.slug}`)
 }
+
+function generateAssetMap(entries: EntryPayload[]): Map<string, string> {
+  let map = new Map()
+  entries?.forEach((entry) => {
+    if (entry.image) {
+      map.set(
+        entry.slug,
+        trimImageSubstring(entry.image?.asset?._ref?.toString()),
+      )
+    }
+  })
+  // console.log(map)
+  return map
+}
+
+function trimImageSubstring(str: string | undefined): string | undefined {
+  if (!str) return undefined
+  return str.replace(/^image-/, '')
+}
+
 export type RouteStore = RouteState & RouteActions
 
-export const useRouteStore = create<RouteState & RouteActions>()((set) => ({
-  currentRoute: '',
-  siblingRoutes: [],
-  siblingAssets: new Map(),
-  assetMap: new Map(),
-  entries: [],
-  updateCurrentRoute: (currentRoute) =>
-    set(() => ({ currentRoute: currentRoute })),
-  updateSiblingRoutes: (siblingRoutes) =>
-    set(() => ({ siblingRoutes: siblingRoutes })),
-  updateAssetMap: (assetMap) => set(() => ({ assetMap: assetMap })),
-  updateAllEntries: (entries) => set(() => ({ entries: entries })),
-  nextRoute: () =>
-    set((state) => ({
-      currentRoute: getNextRoute(
-        state.currentRoute,
-        state.siblingRoutes,
-        (index: number) => index + 1,
-      ),
-    })),
-  previousRoute: () =>
-    set((state) => ({
-      currentRoute: getNextRoute(
-        state.currentRoute,
-        state.siblingRoutes,
-        (index: number) => index - 1,
-      ),
-    })),
-  updateSiblingAssets: () =>
-    set((state) => ({
-      siblingAssets: getSiblingAssets(state.currentRoute, state.assetMap),
-    })),
-}))
+export const useRouteStore = create<RouteState & RouteActions>()(
+  (set, get) => ({
+    currentRoute: '',
+    siblingRoutes: [],
+    siblingAssets: new Map(),
+    assetMap: new Map(),
+    entries: [],
+    next: getNextRoute(
+      get().currentRoute,
+      get().siblingRoutes,
+      (index: number) => index + 1,
+    ),
+    previous: getNextRoute(
+      get().currentRoute,
+      get().siblingRoutes,
+      (index: number) => index - 1,
+    ),
+    updateCurrentRoute: (currentRoute) =>
+      set(() => ({ currentRoute: currentRoute })),
+    updateSiblingRoutes: () =>
+      set((state) => ({ siblingRoutes: generateSiblingRoutes(state.entries) })),
+    updateAssetMap: () =>
+      set((state) => ({ assetMap: generateAssetMap(state.entries) })),
+    updateAllEntries: (entries) => set(() => ({ entries: entries })),
+    nextRoute: () =>
+      set((state) => ({
+        currentRoute: getNextRoute(
+          state.currentRoute,
+          state.siblingRoutes,
+          (index: number) => index + 1,
+        ),
+      })),
+    previousRoute: () =>
+      set((state) => ({
+        currentRoute: getNextRoute(
+          state.currentRoute,
+          state.siblingRoutes,
+          (index: number) => index - 1,
+        ),
+      })),
+    updateSiblingAssets: () =>
+      set((state) => ({
+        siblingAssets: getSiblingAssets(state.currentRoute, state.assetMap),
+      })),
+  }),
+)
 
 function getNextRoute(
   currentRoute: string,

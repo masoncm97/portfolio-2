@@ -47,7 +47,7 @@ export default function ImageBox({
     updateAssetMap,
   } = useAccessRouteStore()
   useUpdateCurrentRoute(updateCurrentRoute)
-  useSetAssetMap(updateAssetMap, assetMap)
+  // useSetAssetMap(updateAssetMap, assetMap)
   useGetSiblingAssets(siblingAssets)
 
   const searchParams = useSearchParams()
